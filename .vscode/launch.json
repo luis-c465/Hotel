@@ -1,0 +1,17 @@
+{
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Launch App",
+      "request": "launch",
+      "mainClass": "luisc.App",
+      "projectName": "hotel",
+      "stepFilters": {
+        "skipClasses": ["$JDK"],
+        "skipSynthetics": false,
+        "skipStaticInitializers": false,
+        "skipConstructors": false
+      }
+    }
+  ]
+}
