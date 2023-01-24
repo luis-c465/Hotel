@@ -1,6 +1,6 @@
-package luisc;
+package lib;
 
-import lib.Modal;
+import luisc.App;
 
 /**
  * Shows an image of the keyboard shortcuts of the game

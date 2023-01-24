@@ -7,6 +7,9 @@ import com.thoughtworks.xstream.security.AnyTypePermission;
 import controlP5.ControlP5;
 import java.io.File;
 import java.util.Date;
+import lib.Guh;
+import lib.TransitionIn;
+import lib.TransitionOut;
 import processing.core.PApplet;
 
 /**
@@ -16,7 +19,7 @@ public final class App extends PApplet {
 
     XStream x = new XStream();
     PersistenceStrategy strategy;
-    XmlList<Hotel> l;
+    XmlList<Hotel> hotels;
 
     // * CONSTANTS
     public static final int h = 1000;
@@ -50,7 +53,6 @@ public final class App extends PApplet {
     // Game classes
     public Header header = new Header(this);
     public StartUp startUp = new StartUp(this);
-    public Conways conways = new Conways(this);
     public Intro intro = new Intro(this);
 
     // Transition classes
@@ -71,13 +73,13 @@ public final class App extends PApplet {
         x.addPermission(AnyTypePermission.ANY);
         strategy = new FilePersistenceStrategy(new File("/tmp"), x);
 
-        l = new XmlList<Hotel>(strategy);
+        hotels = new XmlList<Hotel>(strategy);
 
-        println(l.toString());
+        println(hotels.toString());
         addTestHotel();
-        println(l.toString());
+        println(hotels.toString());
 
-        for (Hotel h : l) {
+        for (Hotel h : hotels) {
             println(h);
         }
 
@@ -89,13 +91,14 @@ public final class App extends PApplet {
         header.setup();
         intro.setup();
         startUp.setup();
-        conways.setup();
     }
 
     @Override
     public void draw() {
         background(bg);
         fill(255);
+
+        println(Guh.u());
         // intro.update();
         // if (doingIntro) {
         //     return;
@@ -120,11 +123,7 @@ public final class App extends PApplet {
         h.bookingEnds = new Date();
         h.dirty = true;
 
-        l.add(new Hotel());
-    }
-
-    public void slider(float interval) {
-        conways.interval = Math.round(interval);
+        hotels.add(new Hotel());
     }
 
     public static final String[] appletArgs = { "--display=1", "luisc.App" };
@@ -145,10 +144,5 @@ public final class App extends PApplet {
 
         // Default fill color is white
         fill(255);
-    }
-
-    @Override
-    public void keyPressed() {
-        conways.KeyPressed();
     }
 }
