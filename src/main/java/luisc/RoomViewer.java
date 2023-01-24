@@ -54,9 +54,17 @@ public class RoomViewer extends Clickable {
     }
 
     private void showInfo() {
-        p.text(r.dirty ? "Dirty" : "Booked", leftSide + space, topSide + padding);
+        p.text(
+            r.dirty ? "Dirty" : "Booked",
+            leftSide + space,
+            topSide + padding
+        );
 
-        p.text("Booked until " + m.dateFormat.format(r.bookingEnds), leftSide + space, topSide + padding * 2);
+        p.text(
+            "Booked until " + m.dateFormat.format(r.bookingEnds),
+            leftSide + space,
+            topSide + padding * 2
+        );
     }
 
     @Override
