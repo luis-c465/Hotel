@@ -7,7 +7,6 @@ import com.thoughtworks.xstream.security.AnyTypePermission;
 import controlP5.ControlP5;
 import java.io.File;
 import java.util.Date;
-import lib.Guh;
 import lib.TransitionIn;
 import lib.TransitionOut;
 import processing.core.PApplet;
@@ -97,8 +96,6 @@ public final class App extends PApplet {
     public void draw() {
         background(bg);
         fill(255);
-
-        println(Guh.u());
         // intro.update();
         // if (doingIntro) {
         //     return;
