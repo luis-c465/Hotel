@@ -23,6 +23,10 @@ public abstract class Clickable extends Obj {
     // ! So only set to true if necessary!
     protected boolean canMove = false;
 
+    // If the class should check if the object was clicked
+    // only set to false when the object leaves the screen and should not be checked!
+    protected boolean shouldCheck = true;
+
     protected int w = 150;
     protected int h = 75;
 
@@ -46,8 +50,10 @@ public abstract class Clickable extends Obj {
         }
 
         // Check if the obj was clicked
-        checkHover();
-        checkClick();
+        if (shouldCheck) {
+            checkHover();
+            checkClick();
+        }
     }
 
     private void checkClick() {
@@ -65,7 +71,18 @@ public abstract class Clickable extends Obj {
 
         clicked = hovered;
         clicking = hovered;
+
+        if (clicked) {
+            onClick();
+        }
     }
+
+    /**
+     * Called when the object is clicked
+     *
+     * Does nothing
+     */
+    protected void onClick() {}
 
     protected void checkHover() {
         hovered = p.mouseX >= left && p.mouseX <= right && p.mouseY >= bottom && p.mouseY <= top;

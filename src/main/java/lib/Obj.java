@@ -3,6 +3,7 @@ package lib;
 import luisc.App;
 import luisc.Assets;
 import processing.core.PApplet;
+import processing.core.PConstants;
 
 /**
  * Abstract class for objects that will be drawn to the screen
@@ -77,4 +78,6 @@ public abstract class Obj {
         m.popMatrix();
         m.popStyle();
     }
+
+    protected static interface c extends PConstants {}
 }

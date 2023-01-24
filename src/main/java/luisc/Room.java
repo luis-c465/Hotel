@@ -6,8 +6,8 @@ import java.util.Date;
 /**
  * Data class for information about a class
  */
-@XStreamAlias("hotel")
-public class Hotel {
+@XStreamAlias("room")
+public class Room {
 
     public int floor = -1;
     public int number = -1;

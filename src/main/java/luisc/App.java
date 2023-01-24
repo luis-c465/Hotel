@@ -6,6 +6,8 @@ import com.thoughtworks.xstream.persistence.PersistenceStrategy;
 import com.thoughtworks.xstream.security.AnyTypePermission;
 import controlP5.ControlP5;
 import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import lib.TransitionIn;
 import lib.TransitionOut;
@@ -18,7 +20,9 @@ public final class App extends PApplet {
 
     XStream x = new XStream();
     PersistenceStrategy strategy;
-    XmlList<Hotel> hotels;
+    XmlList<Room> rooms;
+
+    DateFormat dateFormat = new SimpleDateFormat("mm-dd hh:mm");
 
     // * CONSTANTS
     public static final int h = 1000;
@@ -53,6 +57,7 @@ public final class App extends PApplet {
     public Header header = new Header(this);
     public StartUp startUp = new StartUp(this);
     public Intro intro = new Intro(this);
+    public RoomsViewer rViewer = new RoomsViewer(this);
 
     // Transition classes
     public TransitionIn transIn = new TransitionIn(this);
@@ -68,17 +73,16 @@ public final class App extends PApplet {
         procSet();
 
         // Setup DB
-        // * SETUP DB
         x.addPermission(AnyTypePermission.ANY);
         strategy = new FilePersistenceStrategy(new File("/tmp"), x);
 
-        hotels = new XmlList<Hotel>(strategy);
+        rooms = new XmlList<Room>(strategy);
 
-        println(hotels.toString());
+        println(rooms.toString());
         addTestHotel();
-        println(hotels.toString());
+        println(rooms.toString());
 
-        for (Hotel h : hotels) {
+        for (Room h : rooms) {
             println(h);
         }
 
@@ -90,12 +94,16 @@ public final class App extends PApplet {
         header.setup();
         intro.setup();
         startUp.setup();
+
+        rViewer.setup();
     }
 
     @Override
     public void draw() {
         background(bg);
         fill(255);
+
+        rViewer.update();
         // intro.update();
         // if (doingIntro) {
         //     return;
@@ -112,7 +120,7 @@ public final class App extends PApplet {
     }
 
     private void addTestHotel() {
-        Hotel h = new Hotel();
+        Room h = new Room();
         h.floor = 9;
         h.number = 1;
         h.price = 500;
@@ -120,7 +128,7 @@ public final class App extends PApplet {
         h.bookingEnds = new Date();
         h.dirty = true;
 
-        hotels.add(new Hotel());
+        rooms.add(h);
     }
 
     public static final String[] appletArgs = { "--display=1", "luisc.App" };
