@@ -12,6 +12,7 @@ import java.util.Date;
 import lib.TransitionIn;
 import lib.TransitionOut;
 import processing.core.PApplet;
+import processing.event.MouseEvent;
 
 /**
  * Hello world!
@@ -79,12 +80,6 @@ public final class App extends PApplet {
         rooms = new XmlList<Room>(strategy);
 
         println(rooms.toString());
-        addTestHotel();
-        println(rooms.toString());
-
-        for (Room h : rooms) {
-            println(h);
-        }
 
         // Setup variables and assets
         a.setup(this);
@@ -149,5 +144,11 @@ public final class App extends PApplet {
 
         // Default fill color is white
         fill(255);
+    }
+
+    @Override
+    public void mouseWheel(MouseEvent e) {
+        int c = e.getCount();
+        rViewer.mouseWheel(c);
     }
 }

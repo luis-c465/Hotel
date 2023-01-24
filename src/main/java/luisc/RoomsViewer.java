@@ -28,4 +28,32 @@ public class RoomsViewer extends Obj {
     public RoomsViewer(App a) {
         super(a);
     }
+
+    public void mouseWheel(int c) {
+        if (c == 0) {
+            return;
+        }
+
+        // idk math moment
+        if (c > 0) { // Scrolling down
+            RoomViewer bottom = rooms.getLast();
+            if (bottom.top + 200 > App.h) {
+                incrementAll(-p.constrain(c, 0, bottom.bottom));
+            }
+        } else if (c < 0) { // Scrolling up
+            RoomViewer top = rooms.getFirst();
+            if (top.top < 0) {
+                incrementAll(-p.constrain(c, top.top, 0));
+            }
+        }
+    }
+
+    /**
+     * Increments the y value of all the room viewers by y
+     */
+    public void incrementAll(int y) {
+        for (RoomViewer rv : rooms) {
+            rv.y += y;
+        }
+    }
 }

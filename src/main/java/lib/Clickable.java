@@ -8,15 +8,15 @@ import luisc.App;
 public abstract class Clickable extends Obj {
 
     // ! represents the center of the object
-    protected int x = 500;
-    protected int y = 500;
+    public int x = 500;
+    public int y = 500;
 
     // * Variables which represent the borders of the clickable area
     // * Are computed in the setup method
-    protected int left;
-    protected int right;
-    protected int top;
-    protected int bottom;
+    public int left;
+    public int right;
+    public int top;
+    public int bottom;
 
     // Should be set to true if the object can move around the canvas
     // If true the corners of the object will be recalculated on very re render
@@ -45,12 +45,12 @@ public abstract class Clickable extends Obj {
     protected void preUpdate() {
         push();
 
-        if (canMove) {
-            updateCorners();
-        }
-
         // Check if the obj was clicked
         if (shouldCheck) {
+            if (canMove) {
+                updateCorners();
+            }
+
             checkHover();
             checkClick();
         }
@@ -85,7 +85,11 @@ public abstract class Clickable extends Obj {
     protected void onClick() {}
 
     protected void checkHover() {
-        hovered = p.mouseX >= left && p.mouseX <= right && p.mouseY >= bottom && p.mouseY <= top;
+        hovered =
+            p.mouseX >= left &&
+            p.mouseX <= right &&
+            p.mouseY >= bottom &&
+            p.mouseY <= top;
     }
 
     protected void updateCorners() {

@@ -31,6 +31,12 @@ public class RoomViewer extends Clickable {
     public static final int cost_c = 0xff4ade80;
 
     @Override
+    protected void preUpdate() {
+        checkIfVisible();
+        super.preUpdate();
+    }
+
+    @Override
     protected void _update() {
         p.textAlign(c.LEFT, c.CENTER);
         showRoomNumber();
@@ -69,15 +75,23 @@ public class RoomViewer extends Clickable {
 
     @Override
     protected void _setup() {
+        canMove = true;
+
         x = margin;
         y = margin + i * (gap + h);
         w = App.w - margin * 2;
         h = 200;
 
-        leftSide = x + padding;
-        topSide = y + padding;
-
         cornerToCenter();
+        // checkIfVisible();
+    }
+
+    @Override
+    protected void updateCorners() {
+        super.updateCorners();
+
+        leftSide = left + padding;
+        topSide = top + padding;
     }
 
     public void calc() {
@@ -95,5 +109,16 @@ public class RoomViewer extends Clickable {
 
         setup();
         calc();
+    }
+
+    /**
+     * Checks if the object is visible on the screen
+     * If not temporarily disables updates for drawing and collodion on the object
+     */
+    public void checkIfVisible() {
+        // Would be clearer as an if statement but this runs 60 times a second
+        // so performance is an issue
+        shouldCheck = bottom > 0 || top < App.h;
+        shouldUpdate = shouldCheck;
     }
 }
