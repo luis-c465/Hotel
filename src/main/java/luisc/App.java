@@ -1,6 +1,12 @@
 package luisc;
 
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.persistence.FilePersistenceStrategy;
+import com.thoughtworks.xstream.persistence.PersistenceStrategy;
+import com.thoughtworks.xstream.security.AnyTypePermission;
 import controlP5.ControlP5;
+import java.io.File;
+import java.util.Date;
 import processing.core.PApplet;
 
 /**
@@ -8,111 +14,141 @@ import processing.core.PApplet;
  */
 public final class App extends PApplet {
 
-  // * CONSTANTS
-  public static final int h = 1000;
-  public static final int w = 1000;
+    XStream x = new XStream();
+    PersistenceStrategy strategy;
+    XmlList<Hotel> l;
 
-  public static final int ch = 500;
-  public static final int cw = 500;
+    // * CONSTANTS
+    public static final int h = 1000;
+    public static final int w = 1000;
 
-  // * COLORS
-  public static final int bg = 0xff1e293b;
+    public static final int ch = 500;
+    public static final int cw = 500;
 
-  // * VARIABLES
-  public boolean doingIntro = true;
-  public boolean doingStartUp = true;
-  public boolean transitioning = false;
-  public int numCols = -1;
-  public int numRows = -1;
-  public boolean paused = false;
+    // * COLORS
+    public static final int bg = 0xff1e293b;
 
-  public long numDead = 0;
-  public long numTicks = 0;
+    // * VARIABLES
+    public boolean doingIntro = true;
+    public boolean doingStartUp = true;
+    public boolean transitioning = false;
+    public int numCols = -1;
+    public int numRows = -1;
+    public boolean paused = false;
 
-  // Should be calculated at runtime
+    public long numDead = 0;
+    public long numTicks = 0;
 
-  // * Util classes
-  public Assets a = new Assets();
+    // Should be calculated at runtime
 
-  // * Library classes
-  public ControlP5 cp5;
+    // * Util classes
+    public Assets a = new Assets();
 
-  // Game classes
-  public Header header = new Header(this);
-  public StartUp startUp = new StartUp(this);
-  public Conways conways = new Conways(this);
-  public Intro intro = new Intro(this);
+    // * Library classes
+    public ControlP5 cp5;
 
-  // Transition classes
-  public TransitionIn transIn = new TransitionIn(this);
-  public TransitionOut transOut = new TransitionOut(this);
+    // Game classes
+    public Header header = new Header(this);
+    public StartUp startUp = new StartUp(this);
+    public Conways conways = new Conways(this);
+    public Intro intro = new Intro(this);
 
-  @Override
-  public void settings() {
-    size(1000, 1000);
-  }
+    // Transition classes
+    public TransitionIn transIn = new TransitionIn(this);
+    public TransitionOut transOut = new TransitionOut(this);
 
-  @Override
-  public void setup() {
-    procSet();
-
-    // Setup variables and assets
-    a.setup(this);
-    cp5 = new ControlP5(this);
-
-    // SETUP CLASSES
-    header.setup();
-    intro.setup();
-    startUp.setup();
-    conways.setup();
-  }
-
-  @Override
-  public void draw() {
-    background(bg);
-    fill(255);
-
-    intro.update();
-    if (doingIntro) {
-      return;
+    @Override
+    public void settings() {
+        size(1000, 1000);
     }
 
-    startUp.update();
-    // If the startup is not done do not continue on to the rest of the program
-    if (!startUp.done) {
-      return;
+    @Override
+    public void setup() {
+        procSet();
+
+        // Setup DB
+        // * SETUP DB
+        x.addPermission(AnyTypePermission.ANY);
+        strategy = new FilePersistenceStrategy(new File("/tmp"), x);
+
+        l = new XmlList<Hotel>(strategy);
+
+        println(l.toString());
+        addTestHotel();
+        println(l.toString());
+
+        for (Hotel h : l) {
+            println(h);
+        }
+
+        // Setup variables and assets
+        a.setup(this);
+        cp5 = new ControlP5(this);
+
+        // SETUP CLASSES
+        header.setup();
+        intro.setup();
+        startUp.setup();
+        conways.setup();
     }
 
-    header.update();
-    conways.update();
-  }
+    @Override
+    public void draw() {
+        background(bg);
+        fill(255);
+        // intro.update();
+        // if (doingIntro) {
+        //     return;
+        // }
 
-  public void slider(float interval) {
-    conways.interval = Math.round(interval);
-  }
+        // startUp.update();
+        // // If the startup is not done do not continue on to the rest of the program
+        // if (!startUp.done) {
+        //     return;
+        // }
 
-  public static final String[] appletArgs = { "--display=1", "luisc.App" };
+        // header.update();
+        // conways.update();
+    }
 
-  public static void main(String[] args) {
-    runSketch(appletArgs, null);
-  }
+    private void addTestHotel() {
+        Hotel h = new Hotel();
+        h.floor = 9;
+        h.number = 1;
+        h.price = 500;
+        h.bookingStarts = new Date();
+        h.bookingEnds = new Date();
+        h.dirty = true;
 
-  /**
-   * Sets the default settings for drawing with processing
-   */
-  public void procSet() {
-    background(0);
-    shapeMode(CENTER);
-    textAlign(CENTER);
-    imageMode(CENTER);
-    noStroke();
+        l.add(new Hotel());
+    }
 
-    // Default fill color is white
-    fill(255);
-  }
+    public void slider(float interval) {
+        conways.interval = Math.round(interval);
+    }
 
-  @Override
-  public void keyPressed() {
-    conways.KeyPressed();
-  }
+    public static final String[] appletArgs = { "--display=1", "luisc.App" };
+
+    public static void main(String[] args) {
+        runSketch(appletArgs, null);
+    }
+
+    /**
+     * Sets the default settings for drawing with processing
+     */
+    public void procSet() {
+        background(0);
+        shapeMode(CENTER);
+        textAlign(CENTER);
+        imageMode(CENTER);
+        noStroke();
+
+        // Default fill color is white
+        fill(255);
+    }
+
+    @Override
+    public void keyPressed() {
+        conways.KeyPressed();
+    }
 }
