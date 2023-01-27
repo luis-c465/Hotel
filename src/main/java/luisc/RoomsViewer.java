@@ -42,8 +42,8 @@ public class RoomsViewer extends Obj {
             }
         } else if (c < 0) { // Scrolling up
             RoomViewer top = rooms.getFirst();
-            if (top.top < 0) {
-                incrementAll(-p.constrain(c, top.top, 0));
+            if (top.top - 100 < 0) {
+                incrementAll(-p.constrain(c, top.top - 100, 0));
             }
         }
     }

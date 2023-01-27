@@ -15,44 +15,53 @@ public class Assets {
     public PApplet p;
     public Class<? extends Assets> _class;
 
-    // * SHAPES
-    public PShape skull;
-    public PShape tick;
-
-    // * BUTTONS
-    public PImage enter;
-    public PImage space;
-
-    // * MISCELLANEOUS
-    public PImage intro;
-    public PImage tutorial;
-
-    // * FONTS
-    public PFont nunito;
-    // !Smaller versions of fonts are loaded because controlP5 does not give a method to set the font size of the input text
-    public PFont nunito_small;
-
     public void setup(App app) {
         this.p = app;
         this._class = this.getClass();
 
-        // * LOAD SHAPES
+        loadShapes();
+        loadButtons();
+        loadMisc();
+        loadFonts();
+    }
+
+    public PShape skull;
+    public PShape tick;
+    public PShape ban;
+    public PShape x;
+
+    private void loadShapes() {
         skull = p.loadShape("skull.svg");
         tick = p.loadShape("tick.svg");
+        ban = p.loadShape("ban.svg");
+        x = p.loadShape("x.svg");
+    }
 
-        // * LOAD BUTTONS
+    public PImage enter;
+    public PImage space;
+
+    private void loadButtons() {
         enter = p.loadImage("btn/enter.png");
         space = p.loadImage("btn/space.png");
         space.resize(200, 100);
+    }
 
-        // * LOAD MISC
-        intro = p.loadImage("intro.png");
-        tutorial = p.loadImage("tutorial.png");
+    public PFont nunito;
+    // !Smaller versions of fonts are loaded because controlP5 does not give a method to set the font size of the input text
+    public PFont nunito_small;
 
-        // * LOAD FONTS
+    private void loadFonts() {
         nunito = p.createFont("fonts/Nunito.ttf", 64);
         nunito_small = p.createFont("fonts/Nunito.ttf", 32);
         p.textFont(nunito);
+    }
+
+    public PImage intro;
+    public PImage tutorial;
+
+    private void loadMisc() {
+        intro = p.loadImage("intro.png");
+        tutorial = p.loadImage("tutorial.png");
     }
 
     /**
@@ -68,7 +77,8 @@ public class Assets {
         }
     }
 
-    public Object get(String k) throws IllegalAccessException, NoSuchFieldException {
+    public Object get(String k)
+        throws IllegalAccessException, NoSuchFieldException {
         return (_class.getDeclaredField(k).get(this));
     }
 }

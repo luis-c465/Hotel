@@ -10,10 +10,13 @@ import lib.Clickable;
  */
 public class RoomViewer extends Clickable {
 
+    public static final int top_margin = 100;
+
     public Room r;
     // The index of the room viewer in the containing array
     public int i = -1;
 
+    public static final int bg_c = 0xff93c5fd;
     public static final int margin = 20;
     public static final int padding = 20;
     public static final int gap = 30;
@@ -38,6 +41,15 @@ public class RoomViewer extends Clickable {
 
     @Override
     protected void _update() {
+        // Reference check if they are the same
+        if (m.bSidebar.room == r) {
+            push();
+            p.fill(bg_c);
+            p.rectMode(c.CORNER);
+            p.rect(left, top - margin - h, w, h);
+            pop();
+        }
+
         p.textAlign(c.LEFT, c.CENTER);
         showRoomNumber();
 
@@ -77,13 +89,14 @@ public class RoomViewer extends Clickable {
     protected void _setup() {
         canMove = true;
 
+        w = App.w / 2 - margin * 2;
+        h = 80;
+
         x = margin;
-        y = margin + i * (gap + h);
-        w = App.w - margin * 2;
-        h = 200;
+        y = margin + (i + 1) * (gap + h);
 
         cornerToCenter();
-        // checkIfVisible();
+        checkIfVisible();
     }
 
     @Override
@@ -91,7 +104,7 @@ public class RoomViewer extends Clickable {
         super.updateCorners();
 
         leftSide = left + padding;
-        topSide = top + padding;
+        topSide = top + padding - (h + gap - padding / 2);
     }
 
     public void calc() {
@@ -120,5 +133,11 @@ public class RoomViewer extends Clickable {
         // so performance is an issue
         shouldCheck = bottom > 0 || top < App.h;
         shouldUpdate = shouldCheck;
+    }
+
+    @Override
+    protected void onClick() {
+        m.bSidebar.room = r;
+        p.println(r);
     }
 }

@@ -59,6 +59,7 @@ public final class App extends PApplet {
     public StartUp startUp = new StartUp(this);
     public Intro intro = new Intro(this);
     public RoomsViewer rViewer = new RoomsViewer(this);
+    public BookingSidebar bSidebar = new BookingSidebar(this);
 
     // Transition classes
     public TransitionIn transIn = new TransitionIn(this);
@@ -91,6 +92,7 @@ public final class App extends PApplet {
         startUp.setup();
 
         rViewer.setup();
+        bSidebar.setup();
     }
 
     @Override
@@ -99,6 +101,7 @@ public final class App extends PApplet {
         fill(255);
 
         rViewer.update();
+        bSidebar.update();
         // intro.update();
         // if (doingIntro) {
         //     return;
