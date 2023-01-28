@@ -16,6 +16,8 @@ public class RoomViewer extends Clickable {
     // The index of the room viewer in the containing array
     public int i = -1;
 
+    public static final int canBeBooked_c = 0xff86efac;
+
     // Background color and radius when the room is currently selected
     public static final int bg_c = 0xff475569;
     public static final int bg_r = 20;
@@ -75,17 +77,23 @@ public class RoomViewer extends Clickable {
     }
 
     private void showInfo() {
+        if (!r.booked && !r.dirty) {
+            p.fill(canBeBooked_c);
+        }
+
         p.text(
-            r.dirty ? "Dirty" : "Booked",
+            r.dirty ? "Dirty" : r.booked ? "Booked" : "Not booked!",
             leftSide + space,
             topSide + padding
         );
 
-        p.text(
-            "Booked until " + m.dateFormat.format(r.bookingEnds),
-            leftSide + space,
-            topSide + padding * 2
-        );
+        if (r.booked) {
+            p.text(
+                "Booked until " + m.dateFormat.format(r.bookingEnds),
+                leftSide + space,
+                topSide + padding * 2
+            );
+        }
     }
 
     @Override

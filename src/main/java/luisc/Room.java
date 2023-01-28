@@ -15,6 +15,7 @@ public class Room {
     public Date bookingStarts;
     public Date bookingEnds;
     public boolean dirty = false;
+    public boolean booked = false;
     public String bookedBy;
 
     @Override

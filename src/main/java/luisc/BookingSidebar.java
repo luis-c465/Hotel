@@ -31,7 +31,7 @@ public class BookingSidebar extends Obj {
 
         if (room == null) {
             showNothingSelected();
-        } else if (room.dirty || room.bookingEnds != null) {
+        } else if (room.dirty || room.booked) {
             showAlreadyBooked();
         } else {
             showStartBooking();
@@ -65,7 +65,7 @@ public class BookingSidebar extends Obj {
         p.textSize(30);
         p.textAlign(c.CORNER);
         p.text(
-            "This room is already booked or dirty!",
+            "This room cannot be booked!",
             xs,
             text_start,
             max_txt_w,
