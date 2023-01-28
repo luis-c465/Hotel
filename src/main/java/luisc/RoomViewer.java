@@ -16,7 +16,10 @@ public class RoomViewer extends Clickable {
     // The index of the room viewer in the containing array
     public int i = -1;
 
-    public static final int bg_c = 0xff93c5fd;
+    // Background color and radius when the room is currently selected
+    public static final int bg_c = 0xff475569;
+    public static final int bg_r = 20;
+
     public static final int margin = 20;
     public static final int padding = 20;
     public static final int gap = 30;
@@ -46,7 +49,7 @@ public class RoomViewer extends Clickable {
             push();
             p.fill(bg_c);
             p.rectMode(c.CORNER);
-            p.rect(left, top - margin - h, w, h);
+            p.rect(left, top - margin - h, w, h, bg_r);
             pop();
         }
 
