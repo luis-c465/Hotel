@@ -52,7 +52,7 @@ public class Assets {
 
     private void loadFonts() {
         nunito = p.createFont("fonts/Nunito.ttf", 64);
-        nunito_small = p.createFont("fonts/Nunito.ttf", 32);
+        nunito_small = p.createFont("fonts/Nunito.ttf", 20);
         p.textFont(nunito);
     }
 

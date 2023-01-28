@@ -23,7 +23,7 @@ public final class App extends PApplet {
     PersistenceStrategy strategy;
     XmlList<Room> rooms;
 
-    DateFormat dateFormat = new SimpleDateFormat("mm-dd hh:mm");
+    DateFormat dateFormat = new SimpleDateFormat("MM/dd hh:mm");
 
     // * CONSTANTS
     public static final int h = 1000;

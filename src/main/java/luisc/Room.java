@@ -20,6 +20,6 @@ public class Room {
 
     @Override
     public String toString() {
-        return "" + floor + "" + number + "  $" + price;
+        return "" + floor + "" + number + " $" + price;
     }
 }
