@@ -38,7 +38,7 @@ public class Confirm extends Obj {
         p.text("Room number is " + r.floor + r.number, App.cw, App.ch + 100);
 
         p.fill(a.success);
-        p.text("Amount to pay is $" + r.formatPrice(), App.cw, App.ch + 200);
+        p.text("Amount to pay is $" + r.formatPrice(), App.cw, App.ch + 150);
     }
 
     private class ContinueBtn extends Btn {

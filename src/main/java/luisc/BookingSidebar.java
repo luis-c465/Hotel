@@ -72,6 +72,10 @@ public class BookingSidebar extends Obj {
             startDate.hide();
             endDate.hide();
             bookerName.hide();
+        } else if (m.confirm.r != null) {
+            startDate.hide();
+            endDate.hide();
+            bookerName.hide();
         } else {
             showStartBooking();
         }
