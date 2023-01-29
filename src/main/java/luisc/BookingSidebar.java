@@ -57,12 +57,6 @@ public class BookingSidebar extends Obj {
         endDate.hide();
         bookerName.hide();
 
-        bookBtn.update();
-
-        if (bookBtn.clicked) {
-            p.println("Booking room: " + room);
-        }
-
         if (room == null) {
             showNothingSelected();
         } else if (room.dirty || room.booked) {
@@ -94,6 +88,12 @@ public class BookingSidebar extends Obj {
         startDate.show();
         endDate.show();
         bookerName.show();
+
+        bookBtn.update();
+
+        if (bookBtn.clicked) {
+            p.println("Booking room: " + room);
+        }
 
         p.textSize(30);
         p.text(
@@ -172,6 +172,8 @@ public class BookingSidebar extends Obj {
             .setSize(15)
             .setFont(a.nunito_small);
 
+        Date end = new Date();
+        end.setTime(end.getTime() + 2 * 24 * 60 * 60 * 1000);
         endDate =
             m.cp5
                 .addTextfield("endDate")
@@ -184,7 +186,7 @@ public class BookingSidebar extends Obj {
                 .setCaptionLabel("Booking End Date")
                 .setLabelVisible(true)
                 .setColorCaptionLabel(f_label_c)
-                .setValue("100")
+                .setValue(m.dateFormat.format(end))
                 .hide();
 
         endDate
