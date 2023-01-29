@@ -106,6 +106,11 @@ public final class App extends PApplet {
      * Updates the currBooked property on all the rooms
      */
     private void updateRooms() {
+        if (rooms.size() == 0) {
+            addRooms();
+            return;
+        }
+
         LocalDate today = LocalDate.now();
         for (int i = 0; i < rooms.size(); i++) {
             Room r = rooms.get(i);
@@ -147,6 +152,22 @@ public final class App extends PApplet {
 
         // header.update();
         // conways.update();
+    }
+
+    /**
+     * Should only be called if there is no rooms in the room list
+     */
+    private void addRooms() {
+        for (int i = 0; i < 10; i++) {
+            Room r = new Room();
+            r.floor = (int) random(1, 10);
+            r.number = i;
+            r.price = (int) random(300, 1000);
+
+            r.bookings = new ArrayList<Booking>();
+
+            rooms.add(r);
+        }
     }
 
     private void addTestHotel() {
