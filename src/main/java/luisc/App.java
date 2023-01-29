@@ -77,9 +77,21 @@ public final class App extends PApplet {
     public void setup() {
         procSet();
 
+        String folder = System.getProperty("user.home");
+        folder += File.separator + ".luisc.hotel";
+        File customDir = new File(folder);
+
+        if (customDir.exists()) {
+            System.out.println(customDir + " already exists");
+        } else if (customDir.mkdirs()) {
+            System.out.println(customDir + " was created");
+        } else {
+            System.out.println(customDir + " was not created");
+        }
+
         // Setup DB
         x.addPermission(AnyTypePermission.ANY);
-        strategy = new FilePersistenceStrategy(new File("/tmp"), x);
+        strategy = new FilePersistenceStrategy(new File(folder), x);
 
         rooms = new XmlList<Room>(strategy);
         updateRooms();
