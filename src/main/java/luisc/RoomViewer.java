@@ -73,23 +73,23 @@ public class RoomViewer extends Clickable {
     }
 
     private void showPrice() {
-        p.text("" + String.format("%.2f", r.price), leftSide + space, topSide);
+        p.text("" + r.formatPrice(), leftSide + space, topSide);
     }
 
     private void showInfo() {
-        if (!r.booked && !r.dirty) {
+        if (!r.currBooked && !r.dirty) {
             p.fill(canBeBooked_c);
         }
 
         p.text(
-            r.dirty ? "Dirty" : r.booked ? "Booked" : "Not booked!",
+            r.dirty ? "Dirty" : r.currBooked ? "Booked" : "Not booked!",
             leftSide + space,
             topSide + padding
         );
 
-        if (r.booked) {
+        if (r.currBooked) {
             p.text(
-                "Booked until " + m.dateFormat.format(r.bookingEnds),
+                "Booked until " + m.dateFormat.format(r.bookings.get(0).end),
                 leftSide + space,
                 topSide + padding * 2
             );

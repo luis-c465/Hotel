@@ -8,9 +8,11 @@ import controlP5.ControlP5;
 import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import lib.TransitionIn;
 import lib.TransitionOut;
+import luisc.Room.Booking;
 import processing.core.PApplet;
 import processing.event.MouseEvent;
 
@@ -79,8 +81,11 @@ public final class App extends PApplet {
         strategy = new FilePersistenceStrategy(new File("/tmp"), x);
 
         rooms = new XmlList<Room>(strategy);
+        updateRooms();
 
         println(rooms.toString());
+
+        // addTestHotel();
 
         // Setup variables and assets
         a.setup(this);
@@ -94,6 +99,26 @@ public final class App extends PApplet {
         rViewer.setup();
         bSidebar.setup();
     }
+
+    /**
+     * Updates the currBooked property on all the rooms
+     */
+    // private void updateRooms() {
+    //     Date today = new Date();
+    //     for (Room r : rooms) {
+    //         // If the room has more than one booking
+    //         // and the start of the first booking comes before today
+    //         // then say it is currently booked
+    //         if (
+    //             r.bookings.size() > 0 &&
+    //             r.bookings.get(0).start.compareTo(today) < 0
+    //         ) {
+    //             r.currBooked = true;
+    //         } else {
+    //             r.currBooked = false;
+    //         }
+    //     }
+    // }
 
     @Override
     public void draw() {
@@ -122,9 +147,15 @@ public final class App extends PApplet {
         h.floor = 9;
         h.number = 1;
         h.price = 500;
-        h.bookingStarts = new Date();
-        h.bookingEnds = new Date();
         h.dirty = true;
+
+        Booking b = new Booking();
+        b.start = new Date(0);
+        b.end = new Date(0);
+        b.by = "Joe fungus";
+
+        h.bookings = new ArrayList<Booking>();
+        h.bookings.add(b);
 
         rooms.add(h);
     }

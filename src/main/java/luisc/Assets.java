@@ -12,6 +12,11 @@ import processing.core.PShape;
  */
 public class Assets {
 
+    // Color constants
+    public static final int success = 0xff4ade80;
+    public static final int error = 0xfff87171;
+    public static final int gray = 0xffd4d4d8;
+
     public PApplet p;
     public Class<? extends Assets> _class;
 

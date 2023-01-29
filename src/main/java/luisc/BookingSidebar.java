@@ -59,7 +59,7 @@ public class BookingSidebar extends Obj {
 
         if (room == null) {
             showNothingSelected();
-        } else if (room.dirty || room.booked) {
+        } else if (room.dirty || room.currBooked) {
             showAlreadyBooked();
         } else {
             showStartBooking();
