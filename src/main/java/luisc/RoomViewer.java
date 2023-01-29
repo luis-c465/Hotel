@@ -82,14 +82,19 @@ public class RoomViewer extends Clickable {
         }
 
         p.text(
-            r.dirty ? "Dirty" : r.currBooked ? "Booked" : "Not booked!",
+            r.dirty
+                ? "Dirty"
+                : r.bookings.size() > 0
+                    ? r.bookings.size() + " Bookings"
+                    : "Not booked yet!",
             leftSide + space,
             topSide + padding
         );
 
-        if (r.currBooked) {
+        p.fill(a.gray);
+        if (r.bookings.size() > 0) {
             p.text(
-                "Booked until " + m.dateFormat.format(r.bookings.get(0).end),
+                "Booked from " + r.bookings.get(0).toString(m.dateFormat),
                 leftSide + space,
                 topSide + padding * 2
             );
@@ -149,6 +154,9 @@ public class RoomViewer extends Clickable {
     @Override
     protected void onClick() {
         m.bSidebar.room = r;
+        m.bSidebar.index = i;
+        m.bSidebar.calc();
+
         p.println(r);
     }
 }

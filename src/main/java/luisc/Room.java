@@ -35,14 +35,6 @@ public class Room {
         return String.format("%.2f", price);
     }
 
-    @XStreamAlias("booking")
-    public static class Booking {
-
-        public LocalDate start;
-        public LocalDate end;
-        public String by;
-    }
-
     public static DateTimeFormatter getDateFormatter() {
         Map<Long, String> dow = new HashMap<>();
         dow.put(1L, "Mon");

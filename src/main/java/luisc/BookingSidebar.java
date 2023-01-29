@@ -25,6 +25,8 @@ public class BookingSidebar extends Obj {
     private Textfield bookerName;
     private BookBtn bookBtn;
 
+    private String bookings = "";
+
     private String dateErrors = "";
 
     // Field constants
@@ -57,6 +59,7 @@ public class BookingSidebar extends Obj {
     private int text_start_2 = padding + 100 * 2;
     // private int text_start_3 = padding + 100 * 3;
     public Room room;
+    public int index;
 
     @Override
     protected void _update() {
@@ -125,6 +128,10 @@ public class BookingSidebar extends Obj {
             max_txt_w,
             max_txt_h
         );
+
+        p.text("Bookings", 700, 600, max_txt_w, max_txt_h);
+        p.textSize(15);
+        p.text(bookings, 700, 650, max_txt_w, max_txt_h);
     }
 
     /**
@@ -152,17 +159,35 @@ public class BookingSidebar extends Obj {
             return;
         }
 
-        // if (start.compareTo(end) > 0) {
-        //     dateErrors = "The end date is before the start date!";
-        //     return;
-        // }
-
         if (start.until(end).getDays() <= 0) {
             dateErrors = "Minimum 1 day booking!";
             return;
         }
 
+        if (start.until(end).getDays() <= 0) {
+            dateErrors = "Minimum 1 day booking!";
+            return;
+        }
+        Booking booking = new Booking();
+        booking.start = start;
+        booking.end = end;
+        booking.by = bookerName.getText();
+
+        if (!booking.noAlreadyBooked(room.bookings)) {
+            dateErrors = "These dates is already booked";
+            return;
+        }
+
+        // Now start the booking!
         dateErrors = "";
+
+        room.bookings.add(booking);
+        room.bookings = room.bookings;
+
+        room.currBooked = true;
+
+        // !Refresh the array list with the updated room
+        m.rooms.set(index, room);
     }
 
     protected void showAlreadyBooked() {
@@ -344,6 +369,17 @@ public class BookingSidebar extends Obj {
 
         public BookBtn(App a) {
             super(a);
+        }
+    }
+
+    /**
+     * Calculates a list of bookings for the current room
+     */
+    public void calc() {
+        bookings = "";
+
+        for (Booking b : room.bookings) {
+            bookings += b.toString(m.dateFormat);
         }
     }
 }
