@@ -183,6 +183,8 @@ public class BookingSidebar extends Obj {
 
         // !Refresh the array list with the updated room
         m.rooms.set(index, room);
+
+        m.confirm.r = room;
     }
 
     // protected void showAlreadyBooked() {
