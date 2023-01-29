@@ -72,11 +72,6 @@ public class BookingSidebar extends Obj {
             startDate.hide();
             endDate.hide();
             bookerName.hide();
-        } else if (room.dirty || room.currBooked) {
-            showAlreadyBooked();
-            startDate.hide();
-            endDate.hide();
-            bookerName.hide();
         } else {
             showStartBooking();
         }
@@ -131,7 +126,7 @@ public class BookingSidebar extends Obj {
 
         p.text("Bookings", 700, 600, max_txt_w, max_txt_h);
         p.textSize(15);
-        p.text(bookings, 700, 650, max_txt_w, max_txt_h);
+        p.text(bookings, 700, 650, max_txt_w, 500);
     }
 
     /**
@@ -190,30 +185,30 @@ public class BookingSidebar extends Obj {
         m.rooms.set(index, room);
     }
 
-    protected void showAlreadyBooked() {
-        p.shapeMode(c.CORNER);
-        p.shape(a.ban, xs + icon_size, ys, icon_size, icon_size);
+    // protected void showAlreadyBooked() {
+    //     p.shapeMode(c.CORNER);
+    //     p.shape(a.ban, xs + icon_size, ys, icon_size, icon_size);
 
-        p.fill(255);
-        p.textSize(30);
-        p.textAlign(c.CORNER);
-        p.text(
-            "This room cannot be booked!",
-            xs,
-            text_start,
-            max_txt_w,
-            max_txt_h
-        );
+    //     p.fill(255);
+    //     p.textSize(30);
+    //     p.textAlign(c.CORNER);
+    //     p.text(
+    //         "This room cannot be booked!",
+    //         xs,
+    //         text_start,
+    //         max_txt_w,
+    //         max_txt_h
+    //     );
 
-        p.textSize(20);
-        p.text(
-            "Please select a different room to book",
-            xs,
-            text_start_2,
-            max_txt_w,
-            max_txt_h
-        );
-    }
+    //     p.textSize(20);
+    //     p.text(
+    //         "Please select a different room to book",
+    //         xs,
+    //         text_start_2,
+    //         max_txt_w,
+    //         max_txt_h
+    //     );
+    // }
 
     protected void showNothingSelected() {
         p.shapeMode(c.CORNER);
@@ -379,7 +374,7 @@ public class BookingSidebar extends Obj {
         bookings = "";
 
         for (Booking b : room.bookings) {
-            bookings += b.toString(m.dateFormat);
+            bookings += b.toString(m.dateFormat) + "\n by " + b.by + "\n";
         }
     }
 }
