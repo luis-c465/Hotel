@@ -3,7 +3,13 @@ package luisc;
 import controlP5.ControlP5;
 import controlP5.Textfield;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.format.DateTimeParseException;
+import java.time.temporal.ChronoField;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import lib.Btn;
 import lib.Obj;
 
@@ -19,11 +25,14 @@ public class BookingSidebar extends Obj {
     private Textfield bookerName;
     private BookBtn bookBtn;
 
+    private String dateErrors = "";
+
     // Field constants
     private static final int safe = 20;
     private static final int f_x = 700;
     private static final int f_start_y = 100;
     private static final int f_end_y = 200;
+    private static final int dateErrors_y = 280;
     private static final int f_name_y = 350;
 
     private static final int f_w = 250;
@@ -35,7 +44,7 @@ public class BookingSidebar extends Obj {
 
     private static final int shape_fill_c = 0xfff87171;
     private static final int max_txt_h = 100;
-    private static final int max_txt_w = 280;
+    private static final int max_txt_w = 290;
     private static final int icon_size = 80;
     public static final int padding = 20;
     public static final int x = 700;
@@ -54,14 +63,17 @@ public class BookingSidebar extends Obj {
         showBackground();
 
         // Update the fields
-        startDate.hide();
-        endDate.hide();
-        bookerName.hide();
 
         if (room == null) {
             showNothingSelected();
+            startDate.hide();
+            endDate.hide();
+            bookerName.hide();
         } else if (room.dirty || room.currBooked) {
             showAlreadyBooked();
+            startDate.hide();
+            endDate.hide();
+            bookerName.hide();
         } else {
             showStartBooking();
         }
@@ -88,12 +100,21 @@ public class BookingSidebar extends Obj {
     protected void showStartBooking() {
         startDate.show();
         endDate.show();
+
+        // Show date errors
+        push();
+        p.textAlign(c.CORNER);
+        p.textSize(20);
+        p.fill(a.error);
+        p.text(dateErrors, 700, dateErrors_y, max_txt_w, max_txt_h);
+        pop();
+
         bookerName.show();
 
         bookBtn.update();
 
         if (bookBtn.clicked) {
-            p.println("Booking room: " + room);
+            book();
         }
 
         p.textSize(30);
@@ -104,6 +125,44 @@ public class BookingSidebar extends Obj {
             max_txt_w,
             max_txt_h
         );
+    }
+
+    /**
+     * Tries books the room with the given information
+     */
+    protected void book() {
+        p.println("Booking room: " + room);
+
+        String startString = startDate.getText();
+        String endString = endDate.getText();
+
+        LocalDate start;
+        LocalDate end;
+        try {
+            start = LocalDate.from(m.dateInputFormat.parse(startString));
+        } catch (DateTimeParseException e) {
+            dateErrors = "Start date is not a valid date!";
+            return;
+        }
+
+        try {
+            end = LocalDate.from(m.dateInputFormat.parse(endString));
+        } catch (DateTimeParseException e) {
+            dateErrors = "End date is not a valid date!";
+            return;
+        }
+
+        // if (start.compareTo(end) > 0) {
+        //     dateErrors = "The end date is before the start date!";
+        //     return;
+        // }
+
+        if (start.until(end).getDays() <= 0) {
+            dateErrors = "Minimum 1 day booking!";
+            return;
+        }
+
+        dateErrors = "";
     }
 
     protected void showAlreadyBooked() {
@@ -161,10 +220,10 @@ public class BookingSidebar extends Obj {
                 .setColor(f_txt_c)
                 .setColorForeground(f_txt_c)
                 .setColorBackground(f_bg_c)
-                .setCaptionLabel("Booking Start Date")
+                .setCaptionLabel("Check in date")
                 .setLabelVisible(true)
                 .setColorCaptionLabel(f_label_c)
-                .setValue(m.dateFormat.format(m.today))
+                .setValue(m.dateInputFormat.format(m.today))
                 .hide();
         startDate
             .getCaptionLabel()
@@ -184,10 +243,10 @@ public class BookingSidebar extends Obj {
                 .setColor(f_txt_c)
                 .setColorForeground(f_txt_c)
                 .setColorBackground(f_bg_c)
-                .setCaptionLabel("Booking End Date")
+                .setCaptionLabel("Check out date")
                 .setLabelVisible(true)
                 .setColorCaptionLabel(f_label_c)
-                .setValue(m.dateFormat.format(LocalDate.now().plusDays(1)))
+                .setValue(m.dateInputFormat.format(LocalDate.now().plusDays(1)))
                 .hide();
 
         endDate
@@ -209,7 +268,7 @@ public class BookingSidebar extends Obj {
                 .setCaptionLabel("Booker Name")
                 .setLabelVisible(true)
                 .setColorCaptionLabel(f_label_c)
-                .setValue("100")
+                .setText("woah")
                 .hide();
 
         bookerName
@@ -228,6 +287,41 @@ public class BookingSidebar extends Obj {
 
     public BookingSidebar(App app) {
         super(app);
+    }
+
+    public static DateTimeFormatter getDateInputFormatter() {
+        Map<Long, String> dow = new HashMap<>();
+        dow.put(1L, "Mon");
+        dow.put(2L, "Tue");
+        dow.put(3L, "Wed");
+        dow.put(4L, "Thu");
+        dow.put(5L, "Fri");
+        dow.put(6L, "Sat");
+        dow.put(7L, "Sun");
+        Map<Long, String> moy = new HashMap<>();
+        moy.put(1L, "Jan");
+        moy.put(2L, "Feb");
+        moy.put(3L, "Mar");
+        moy.put(4L, "Apr");
+        moy.put(5L, "May");
+        moy.put(6L, "Jun");
+        moy.put(7L, "Jul");
+        moy.put(8L, "Aug");
+        moy.put(9L, "Sep");
+        moy.put(10L, "Oct");
+        moy.put(11L, "Nov");
+        moy.put(12L, "Dec");
+        return new DateTimeFormatterBuilder()
+            .parseCaseInsensitive()
+            .parseLenient()
+            .optionalStart()
+            .appendValue(ChronoField.MONTH_OF_YEAR, 2)
+            .appendLiteral("/")
+            .appendValue(ChronoField.DAY_OF_MONTH, 2)
+            .optionalEnd()
+            .appendLiteral('/')
+            .appendValue(ChronoField.YEAR_OF_ERA, 4) // 2 digit year not handled
+            .toFormatter();
     }
 
     private class BookBtn extends Btn {

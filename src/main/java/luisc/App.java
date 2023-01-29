@@ -25,6 +25,7 @@ public final class App extends PApplet {
     public XmlList<Room> rooms;
 
     public DateTimeFormatter dateFormat = Room.getDateFormatter();
+    public DateTimeFormatter dateInputFormat = BookingSidebar.getDateInputFormatter();
     public LocalDate today = LocalDate.now();
 
     // * CONSTANTS
