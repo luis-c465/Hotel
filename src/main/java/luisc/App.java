@@ -6,10 +6,9 @@ import com.thoughtworks.xstream.persistence.PersistenceStrategy;
 import com.thoughtworks.xstream.security.AnyTypePermission;
 import controlP5.ControlP5;
 import java.io.File;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import lib.TransitionIn;
 import lib.TransitionOut;
 import luisc.Room.Booking;
@@ -21,11 +20,12 @@ import processing.event.MouseEvent;
  */
 public final class App extends PApplet {
 
-    XStream x = new XStream();
-    PersistenceStrategy strategy;
-    XmlList<Room> rooms;
+    public XStream x = new XStream();
+    public PersistenceStrategy strategy;
+    public XmlList<Room> rooms;
 
-    DateFormat dateFormat = new SimpleDateFormat("MM/dd hh:mm");
+    public DateTimeFormatter dateFormat = Room.getDateFormatter();
+    public LocalDate today = LocalDate.now();
 
     // * CONSTANTS
     public static final int h = 1000;
@@ -103,22 +103,25 @@ public final class App extends PApplet {
     /**
      * Updates the currBooked property on all the rooms
      */
-    // private void updateRooms() {
-    //     Date today = new Date();
-    //     for (Room r : rooms) {
-    //         // If the room has more than one booking
-    //         // and the start of the first booking comes before today
-    //         // then say it is currently booked
-    //         if (
-    //             r.bookings.size() > 0 &&
-    //             r.bookings.get(0).start.compareTo(today) < 0
-    //         ) {
-    //             r.currBooked = true;
-    //         } else {
-    //             r.currBooked = false;
-    //         }
-    //     }
-    // }
+    private void updateRooms() {
+        LocalDate today = LocalDate.now();
+        for (int i = 0; i < rooms.size(); i++) {
+            Room r = rooms.get(i);
+            // If the room has more than one booking
+            // and the start of the first booking comes before today
+            // then say it is currently booked
+            if (
+                r.bookings.size() > 0 &&
+                r.bookings.get(0).start.compareTo(today) > 0
+            ) {
+                r.currBooked = true;
+            } else {
+                r.currBooked = false;
+            }
+
+            rooms.set(i, r);
+        }
+    }
 
     @Override
     public void draw() {
@@ -150,8 +153,8 @@ public final class App extends PApplet {
         h.dirty = true;
 
         Booking b = new Booking();
-        b.start = new Date(0);
-        b.end = new Date(0);
+        b.start = LocalDate.now();
+        b.end = LocalDate.now();
         b.by = "Joe fungus";
 
         h.bookings = new ArrayList<Booking>();

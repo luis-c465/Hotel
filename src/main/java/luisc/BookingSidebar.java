@@ -2,6 +2,7 @@ package luisc;
 
 import controlP5.ControlP5;
 import controlP5.Textfield;
+import java.time.LocalDate;
 import java.util.Date;
 import lib.Btn;
 import lib.Obj;
@@ -163,7 +164,7 @@ public class BookingSidebar extends Obj {
                 .setCaptionLabel("Booking Start Date")
                 .setLabelVisible(true)
                 .setColorCaptionLabel(f_label_c)
-                .setValue(m.dateFormat.format(new Date()))
+                .setValue(m.dateFormat.format(m.today))
                 .hide();
         startDate
             .getCaptionLabel()
@@ -186,7 +187,7 @@ public class BookingSidebar extends Obj {
                 .setCaptionLabel("Booking End Date")
                 .setLabelVisible(true)
                 .setColorCaptionLabel(f_label_c)
-                .setValue(m.dateFormat.format(end))
+                .setValue(m.dateFormat.format(LocalDate.now().plusDays(1)))
                 .hide();
 
         endDate
