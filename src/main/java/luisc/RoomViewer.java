@@ -73,7 +73,7 @@ public class RoomViewer extends Clickable {
     }
 
     private void showPrice() {
-        p.text("$" + r.formatPrice(), leftSide + space, topSide);
+        p.text("$" + r.formatPrice() + " per day", leftSide + space, topSide);
     }
 
     private void showInfo() {

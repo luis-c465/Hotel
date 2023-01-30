@@ -37,8 +37,16 @@ public class Confirm extends Obj {
 
         p.text("Room number is " + r.floor + r.number, App.cw, App.ch + 100);
 
+        Booking b = r.bookings.get(0);
+        int daysBetween = b.start.until(b.end).getDays();
+        double price = r.price * daysBetween;
+
         p.fill(a.success);
-        p.text("Amount to pay is $" + r.formatPrice(), App.cw, App.ch + 150);
+        p.text(
+            "Amount to pay is $" + String.format("%.2f", price),
+            App.cw,
+            App.ch + 150
+        );
     }
 
     private class ContinueBtn extends Btn {

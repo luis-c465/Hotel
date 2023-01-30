@@ -186,7 +186,7 @@ public final class App extends PApplet {
             Room r = new Room();
             r.floor = (int) random(1, 10);
             r.number = i;
-            r.price = (int) random(300, 1000);
+            r.price = (int) random(100, 300);
 
             r.bookings = new ArrayList<Booking>();
 
