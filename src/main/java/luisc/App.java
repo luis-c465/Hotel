@@ -138,6 +138,18 @@ public final class App extends PApplet {
                 r.currBooked = false;
             }
 
+            if (
+                r.bookings.size() > 0 &&
+                r.bookings
+                    .get(0)
+                    .start.compareTo(LocalDate.from(today).plusDays(1)) >
+                0
+            ) {
+                r.dirty = true;
+            } else {
+                r.dirty = false;
+            }
+
             rooms.set(i, r);
         }
     }

@@ -163,6 +163,11 @@ public class BookingSidebar extends Obj {
             return;
         }
 
+        if (m.today.until(end).getDays() < 0) {
+            dateErrors = "You cant book backwards in time!";
+            return;
+        }
+
         if (start.until(end).getDays() <= 0) {
             dateErrors = "Minimum 1 day booking!";
             return;
