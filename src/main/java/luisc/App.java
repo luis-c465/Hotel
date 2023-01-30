@@ -147,15 +147,15 @@ public final class App extends PApplet {
         background(bg);
         fill(255);
 
+        intro.update();
+        if (doingIntro) {
+            return;
+        }
+
         rViewer.update();
         bSidebar.update();
 
         confirm.update();
-        // intro.update();
-        // if (doingIntro) {
-        //     return;
-        // }
-
         // startUp.update();
         // // If the startup is not done do not continue on to the rest of the program
         // if (!startUp.done) {

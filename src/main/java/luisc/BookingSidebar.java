@@ -180,7 +180,7 @@ public class BookingSidebar extends Obj {
         // Now start the booking!
         dateErrors = "";
 
-        room.bookings.add(booking);
+        room.bookings.add(0, booking);
         room.bookings = room.bookings;
 
         room.currBooked = true;

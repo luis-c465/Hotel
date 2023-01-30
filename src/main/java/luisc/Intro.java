@@ -14,7 +14,7 @@ public class Intro extends Transitionable {
     BackBtn backBtn;
 
     protected void _setup() {
-        slides = new PImage[] { a.intro, a.tutorial };
+        slides = new PImage[] { a.intro };
         maxSlide = slides.length - 1;
 
         contBtn = new ContBtn(m);
@@ -49,7 +49,7 @@ public class Intro extends Transitionable {
     private class ContBtn extends Btn {
 
         public static final String cont = "Next";
-        public static final String sta = "Start Game";
+        public static final String sta = "Start";
 
         protected void _setup() {
             w = 100;
