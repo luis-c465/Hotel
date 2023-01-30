@@ -296,10 +296,10 @@ public class BookingSidebar extends Obj {
                 .setColor(f_txt_c)
                 .setColorForeground(f_txt_c)
                 .setColorBackground(f_bg_c)
-                .setCaptionLabel("Booker Name")
+                .setCaptionLabel("Customer Name")
                 .setLabelVisible(true)
                 .setColorCaptionLabel(f_label_c)
-                .setText("woah")
+                .setText("")
                 .hide();
 
         bookerName
